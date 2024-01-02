@@ -57,4 +57,9 @@ export const categories: Category[] = [
     ],
     single: false,
   },
+  {
+    label: 'Standalone',
+    items: [{ name: '--standalone', selected: false }],
+    single: false,
+  },
 ];
