@@ -1,0 +1,61 @@
+<div class="flex flex-col gap-1 mb-4">
+  <label for="projectName" class="font-bold">
+    Project Name <small>(required)</small>
+  </label>
+  <input
+    type="text"
+    id="projectName"
+    #projectNameInput
+    [(ngModel)]="projectName"
+    class="p-2 border rounded"
+    placeholder="Enter project name"
+    required
+    (input)="updateCommand()"
+    (keydown.space)="$event.preventDefault()"
+  />
+</div>
+
+<div *ngFor="let category of categories" class="flex flex-col gap-1">
+  <h3 class="font-bold">{{ category.label | titlecase }}</h3>
+  <div class="flex gap-2 mb-3">
+    <button
+      *ngFor="let option of category.items"
+      type="button"
+      class="px-4 py-2 rounded text-white focus:outline-none"
+      [ngClass]="
+        option.selected
+          ? 'bg-blue-500 hover:bg-blue-700'
+          : 'bg-gray-500 hover:bg-gray-700'
+      "
+      (click)="toggleOption(category, option)"
+    >
+      {{ option.name }}
+    </button>
+  </div>
+</div>
+
+<hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-200" />
+
+<div class="flex flex-col gap-1">
+  <div class="flex border rounded">
+    <textarea
+      [value]="generatedCommand"
+      class="flex-1 p-2 bg-gray-100 resize-none overflow-hidden"
+      readonly
+    ></textarea>
+    <button
+      [disabled]="!projectName"
+      (click)="copyToClipboard()"
+      class="py-2 px-4 rounded-r"
+      [ngClass]="{
+        'bg-blue-500 hover:bg-blue-700 text-white': projectName.length > 0,
+        'bg-gray-500 text-gray-400 cursor-not-allowed': projectName.length === 0
+      }"
+    >
+      Copy
+    </button>
+  </div>
+  <div *ngIf="!projectName" class="text-sm text-end text-gray-500">
+    (you're missing your project name!)
+  </div>
+</div>
